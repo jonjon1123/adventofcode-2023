@@ -13,12 +13,12 @@ class Day2 extends Day {
 
     let total = 0;
     let possible = false;
-    const lines = input.split("\n");
-    for (const line of lines) {
+    const games = input.split("\n");
+    for (const game of games) {
       possible = true;
-      const gameNum: number = parseInt(line.substring(line.indexOf('Game ')+5, line.indexOf(':')));
+      const gameNum: number = parseInt(game.substring(game.indexOf('Game ')+5, game.indexOf(':')));
 
-      const sets: string[] = line.substring(line.indexOf(':')+1).trim().split(";");
+      const sets: string[] = game.substring(game.indexOf(':')+1).trim().split(";");
 
       for (const set of sets) {
         const cubes: string[] = set.split(',');
@@ -55,7 +55,45 @@ class Day2 extends Day {
   }
 
   solveForPartTwo(input: string): string {
-    return input;
+    let total = 0;
+    const games = input.split("\n");
+    for (const game of games) {
+      let maxBlueCube = 0;
+      let maxRedCube = 0;
+      let maxGreenCube = 0;
+
+      const sets: string[] = game.substring(game.indexOf(':')+1).trim().split(";");
+
+      for (const set of sets) {
+        const cubes: string[] = set.split(',');
+        for (const cube of cubes) {
+          const cubeNumColor: string[] = cube.trim().split(' ');
+          const num: number = parseInt(cubeNumColor[0]);
+          const color: string = cubeNumColor[1];
+          switch (color) {
+            case 'blue':
+              if (num > maxBlueCube) {
+                maxBlueCube = num;
+              }
+              break;
+            case 'green':
+              if (num > maxGreenCube) {
+                maxGreenCube = num;
+              }
+              break;
+            case 'red':
+              if (num > maxRedCube) {
+                maxRedCube = num;
+              }
+              break;
+          }
+        }
+      }
+
+      total = total + (maxBlueCube * maxRedCube * maxGreenCube);
+    }
+
+    return total.toString();
   }
 }
 
